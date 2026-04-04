@@ -34,10 +34,11 @@ export function runSastScan(target: string, config: ScannerConfig): ScanResult {
   const findings: Finding[] = [];
 
   try {
-    const output = execSync(
-      `semgrep scan --config auto --json --quiet "${target}"`,
-      { encoding: 'utf-8', timeout: 300000, stdio: ['pipe', 'pipe', 'pipe'] },
-    );
+    const output = execSync(`semgrep scan --config auto --json --quiet "${target}"`, {
+      encoding: 'utf-8',
+      timeout: 300000,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
 
     const parsed: SemgrepResult = JSON.parse(output);
 

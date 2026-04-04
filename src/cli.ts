@@ -11,10 +11,7 @@ import { generateJsonReport } from './reporters/json.reporter';
 
 const program = new Command();
 
-program
-  .name('sec-scan')
-  .description('Security scanning pipeline CLI')
-  .version('1.0.0');
+program.name('sec-scan').description('Security scanning pipeline CLI').version('1.0.0');
 
 program
   .command('scan')
@@ -31,8 +28,14 @@ program
       ...DEFAULT_CONFIG,
       target,
       sast: { enabled: options.all || options.sast, failOnSeverity: options.failOn as Severity },
-      dependency: { enabled: options.all || options.deps, failOnSeverity: options.failOn as Severity },
-      secret: { enabled: options.all || options.secrets, failOnSeverity: options.failOn as Severity },
+      dependency: {
+        enabled: options.all || options.deps,
+        failOnSeverity: options.failOn as Severity,
+      },
+      secret: {
+        enabled: options.all || options.secrets,
+        failOnSeverity: options.failOn as Severity,
+      },
     };
 
     const results: ScanResult[] = [];

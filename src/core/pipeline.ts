@@ -9,15 +9,10 @@ const SEVERITY_ORDER: Record<Severity, number> = {
 };
 
 export function shouldFail(result: ScanResult, failOnSeverity: Severity): boolean {
-  return result.findings.some(
-    (f) => SEVERITY_ORDER[f.severity] <= SEVERITY_ORDER[failOnSeverity],
-  );
+  return result.findings.some((f) => SEVERITY_ORDER[f.severity] <= SEVERITY_ORDER[failOnSeverity]);
 }
 
-export function buildReport(
-  target: string,
-  results: ScanResult[],
-): PipelineReport {
+export function buildReport(target: string, results: ScanResult[]): PipelineReport {
   const allFindings = results.flatMap((r) => r.findings);
 
   return {

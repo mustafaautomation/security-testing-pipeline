@@ -19,7 +19,8 @@ const SECRET_PATTERNS: SecretPattern[] = [
   },
   {
     name: 'AWS Secret Key',
-    pattern: /(?:aws_secret_access_key|AWS_SECRET_ACCESS_KEY)\s*[=:]\s*['"]?[A-Za-z0-9/+=]{40}['"]?/g,
+    pattern:
+      /(?:aws_secret_access_key|AWS_SECRET_ACCESS_KEY)\s*[=:]\s*['"]?[A-Za-z0-9/+=]{40}['"]?/g,
     severity: 'critical',
     cwe: 'CWE-798',
   },
@@ -56,7 +57,17 @@ const SECRET_PATTERNS: SecretPattern[] = [
 ];
 
 const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', 'vendor', '__pycache__']);
-const SKIP_EXTENSIONS = new Set(['.png', '.jpg', '.gif', '.ico', '.woff', '.woff2', '.ttf', '.eot', '.lock']);
+const SKIP_EXTENSIONS = new Set([
+  '.png',
+  '.jpg',
+  '.gif',
+  '.ico',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.eot',
+  '.lock',
+]);
 
 function walkFiles(dir: string): string[] {
   const files: string[] = [];
@@ -107,7 +118,8 @@ export function runSecretScan(target: string, config: ScannerConfig): ScanResult
             file: path.relative(target, file),
             line: i + 1,
             description: `Potential ${pattern.name} found in source code`,
-            remediation: 'Remove the secret and rotate the credential. Use environment variables or a secret manager.',
+            remediation:
+              'Remove the secret and rotate the credential. Use environment variables or a secret manager.',
             cwe: pattern.cwe,
           });
         }

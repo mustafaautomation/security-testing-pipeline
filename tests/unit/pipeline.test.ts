@@ -102,10 +102,7 @@ describe('buildReport', () => {
   });
 
   it('should pass when all scans pass', () => {
-    const results = [
-      makeScanResult({ passed: true }),
-      makeScanResult({ passed: true }),
-    ];
+    const results = [makeScanResult({ passed: true }), makeScanResult({ passed: true })];
 
     const report = buildReport('.', results);
     expect(report.overallPassed).toBe(true);

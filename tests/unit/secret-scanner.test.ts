@@ -23,13 +23,19 @@ describe('Secret Scanner', () => {
   });
 
   it('should detect GitHub token', () => {
-    fs.writeFileSync(path.join(TMP, 'env.ts'), 'const token = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij";');
+    fs.writeFileSync(
+      path.join(TMP, 'env.ts'),
+      'const token = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij";',
+    );
     const result = runSecretScan(TMP, { enabled: true, failOnSeverity: 'high' });
     expect(result.findings.some((f) => f.title.includes('GitHub Token'))).toBe(true);
   });
 
   it('should detect private key header', () => {
-    fs.writeFileSync(path.join(TMP, 'key.pem'), '-----BEGIN RSA PRIVATE KEY-----\nfake\n-----END RSA PRIVATE KEY-----');
+    fs.writeFileSync(
+      path.join(TMP, 'key.pem'),
+      '-----BEGIN RSA PRIVATE KEY-----\nfake\n-----END RSA PRIVATE KEY-----',
+    );
     const result = runSecretScan(TMP, { enabled: true, failOnSeverity: 'high' });
     expect(result.findings.some((f) => f.title.includes('Private Key'))).toBe(true);
   });
