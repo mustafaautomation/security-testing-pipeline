@@ -11,7 +11,9 @@ import { generateJsonReport } from './reporters/json.reporter';
 
 const program = new Command();
 
-program.name('sec-scan').description('Security scanning pipeline CLI').version('1.0.0');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { version } = require('../package.json');
+program.name('sec-scan').description('Security scanning pipeline CLI').version(version);
 
 program
   .command('scan')
@@ -20,20 +22,29 @@ program
   .option('--sast', 'Run SAST scan (requires Semgrep)')
   .option('--deps', 'Run dependency audit (requires npm)')
   .option('--secrets', 'Run secret detection')
-  .option('--all', 'Run all enabled scans', true)
+  .option('--all', 'Run all enabled scans')
   .option('--fail-on <severity>', 'Fail on severity: critical, high, medium, low', 'high')
   .option('--json <path>', 'Output JSON report')
   .action((target: string, options) => {
+    const VALID_SEVERITIES = ['critical', 'high', 'medium', 'low'];
+    if (!VALID_SEVERITIES.includes(options.failOn)) {
+      console.error(`Invalid severity: "${options.failOn}". Valid: ${VALID_SEVERITIES.join(', ')}`);
+      process.exit(1);
+    }
+
+    const hasSpecificFlag = options.sast || options.deps || options.secrets;
+    const runAll = options.all || !hasSpecificFlag;
+
     const config: PipelineConfig = {
       ...DEFAULT_CONFIG,
       target,
-      sast: { enabled: options.all || options.sast, failOnSeverity: options.failOn as Severity },
+      sast: { enabled: runAll || !!options.sast, failOnSeverity: options.failOn as Severity },
       dependency: {
-        enabled: options.all || options.deps,
+        enabled: runAll || !!options.deps,
         failOnSeverity: options.failOn as Severity,
       },
       secret: {
-        enabled: options.all || options.secrets,
+        enabled: runAll || !!options.secrets,
         failOnSeverity: options.failOn as Severity,
       },
     };

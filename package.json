@@ -4,6 +4,13 @@
   "description": "Automated security scanning pipeline — SAST, dependency audit, secret detection, and DAST orchestration",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "bin": {
     "sec-scan": "dist/cli.js"
   },
@@ -15,7 +22,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"**/*.ts\"",
     "format:check": "prettier --check \"**/*.ts\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "author": "Quvantic <info@quvantic.com> (https://quvantic.com)",
   "license": "MIT",
@@ -23,7 +31,7 @@
     "type": "git",
     "url": "https://github.com/mustafaautomation/security-testing-pipeline.git"
   },
-  "homepage": "https://github.com/mustafaautomation/security-testing-pipeline#readme",
+  "homepage": "https://quvantic.com",
   "dependencies": {
     "commander": "^12.1.0"
   },
@@ -40,5 +48,5 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "files": ["dist"]
+  "files": ["dist", "package.json"]
 }
