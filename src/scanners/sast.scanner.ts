@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { Finding, ScanResult, ScannerConfig } from '../core/types';
 import { shouldFail } from '../core/pipeline';
 
@@ -18,6 +18,8 @@ interface SemgrepResult {
 
 function mapSeverity(semgrepSev: string): Finding['severity'] {
   switch (semgrepSev.toUpperCase()) {
+    case 'CRITICAL':
+      return 'critical';
     case 'ERROR':
       return 'high';
     case 'WARNING':
@@ -34,11 +36,15 @@ export function runSastScan(target: string, config: ScannerConfig): ScanResult {
   const findings: Finding[] = [];
 
   try {
-    const output = execSync(`semgrep scan --config auto --json --quiet "${target}"`, {
-      encoding: 'utf-8',
-      timeout: 300000,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
+    const output = execFileSync(
+      'semgrep',
+      ['scan', '--config', 'auto', '--json', '--quiet', target],
+      {
+        encoding: 'utf-8',
+        timeout: 300000,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      },
+    );
 
     const parsed: SemgrepResult = JSON.parse(output);
 

@@ -1,5 +1,5 @@
 export { buildReport, shouldFail, severityAtOrAbove } from './core/pipeline';
-export {
+export type {
   Finding,
   ScanResult,
   PipelineReport,
@@ -7,8 +7,8 @@ export {
   ScannerConfig,
   Severity,
   ScanType,
-  DEFAULT_CONFIG,
 } from './core/types';
+export { DEFAULT_CONFIG } from './core/types';
 export { runSastScan } from './scanners/sast.scanner';
 export { runDependencyScan } from './scanners/dependency.scanner';
 export { runSecretScan } from './scanners/secret.scanner';
