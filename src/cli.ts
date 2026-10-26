@@ -11,7 +11,7 @@ import { generateJsonReport } from './reporters/json.reporter';
 
 const program = new Command();
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { version } = require('../package.json');
 program.name('sec-scan').description('Security scanning pipeline CLI').version(version);
 

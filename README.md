@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/mustafaautomation/security-testing-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/mustafaautomation/security-testing-pipeline/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 
 Automated security scanning pipeline that orchestrates SAST (Semgrep), dependency auditing (npm audit), and secret detection. Normalizes findings into a unified format with severity-based fail gates for CI/CD integration.
 
